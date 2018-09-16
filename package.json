@@ -1,0 +1,42 @@
+{
+  "name": "vuex-map-model",
+  "version": "0.1.0",
+  "description": "More elegant one-way data flow using Vuex with v-model command",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liangzr/vuex-map-model.git"
+  },
+  "keywords": [
+    "vuex",
+    "v-model",
+    "vue",
+    "one-way data flow",
+    "two-way data binding"
+  ],
+  "author": "liangzr <liangzr@outlook.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/liangzr/vuex-map-model/issues"
+  },
+  "homepage": "https://github.com/liangzr/vuex-map-model#readme",
+  "devDependencies": {
+    "@babel/core": "^7.0.1",
+    "@babel/preset-env": "^7.0.0",
+    "eslint": "^5.6.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.2.0",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-plugin-vue": "^4.0.0",
+    "rollup": "^0.66.0",
+    "rollup-plugin-babel": "^4.0.3",
+    "uglify-es": "^3.3.9"
+  }
+}
