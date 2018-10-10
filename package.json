@@ -1,10 +1,14 @@
 {
   "name": "vuex-map-model",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "More elegant one-way data flow using Vuex with v-model command",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "scripts:umd": "rollup --config --output.format umd --name vuex-map-model --output.file dist/index.js src/index.js",
+    "scripts:es": "rollup --config --output.format es --name vuex-map-model --output.file dist/index.esm.js src/index.js",
+    "scripts:minify": "uglifyjs --compress --mangle --comments --output dist/index.min.js dist/index.js && uglifyjs --compress --mangle --comments --output dist/index.esm.min.js dist/index.esm.js",
+    "scripts": "yarn run scripts:umd && yarn run scripts:es && yarn run scripts:minify"
   },
   "repository": {
     "type": "git",
@@ -38,5 +42,8 @@
     "rollup": "^0.66.0",
     "rollup-plugin-babel": "^4.0.3",
     "uglify-es": "^3.3.9"
+  },
+  "dependencies": {
+    "assert": "^1.4.1"
   }
 }
