@@ -1,5 +1,9 @@
 vuex-map-model
 ===
+
+[![npm](https://img.shields.io/npm/v/vuex-map-model.svg?style=flat-square)](https://www.npmjs.com/package/vuex-map-model)
+![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/vuex-map-model.svg?style=flat-square)
+
 More elegant one-way data flow using Vuex with v-model command
 
 ## Install
