@@ -1,6 +1,6 @@
 {
   "name": "vuex-map-model",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "More elegant one-way data flow using Vuex with v-model command",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
