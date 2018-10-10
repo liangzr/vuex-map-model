@@ -1,4 +1,4 @@
-import { should, isPlainObject, isArray } from '../utils/util'
+import { should, isPlainObject, isArray } from './util'
 
 export default function (models) {
   should(isArray(models) || isPlainObject(models), 'only accepts array or object')
