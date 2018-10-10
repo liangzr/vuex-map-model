@@ -61,7 +61,7 @@ export default {
     carUnique: '',
   },
   mutations: {
-    // Once the `this.carUnique` or `this.search` changed, `vuex-map-model` will
+    // Once the `this.carUnique` changed, `vuex-map-model` will
     // commit a payload to the Vuex store
     //
     // @example
@@ -98,12 +98,12 @@ export default {
     // different than before.
     //
     // The following expression are supported:
-    // Expression A: [fieldPath, fieldA, fieldB..., mutationType]
-    // Expression B: [fieldPath, [fieldA, fieldB...], mutationType]
+    // Expression A: [fieldPath, mutationType, fieldA, fieldB...]
+    // Expression B: [fieldPath, mutationType, [fieldA, fieldB...]]
     // => this.fieldA, this.fieldB, this.search
     ...mapModel([
-      ['cars.search', 'carUnique', 'carStatus', 'cars/updateSearch'],
-      // or ['cars.search', ['carUnique', 'carStatus'], 'cars/updateSearch'],
+      ['cars.search', 'cars/updateSearch', 'carUnique', 'carStatus'],
+      // or ['cars.search', 'cars/updateSearch', ['carUnique', 'carStatus']],
       // or ['car.search.carUnique', 'cars/updateCarUnique']
       //  + ['car.search.carStatus', 'cars/updateCarStatus']
     ]),

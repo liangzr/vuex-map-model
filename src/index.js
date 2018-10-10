@@ -57,8 +57,8 @@ function normalizeModels (models) {
  * Normalize the model form different expression
  * @param {Array} model
  * -- [fieldPath, mutaionType]
- * -- [fieldPath, [field1, field2, field3...], mutaionType]
- * -- [fieldPath, field1, field2..., mutaionType]
+ * -- [fieldPath, mutaionType, [field1, field2, field3...]]
+ * -- [fieldPath, mutaionType, field1, field2, field3...]
  * @returns [[key, fieldPath, mutationType]]
  */
 function normalizeModel (model) {
@@ -66,13 +66,13 @@ function normalizeModel (model) {
   should(isArray(model), 'model expression must be array')
 
   const fieldPath = model[0]
-  const mutaionType = model[model.length - 1]
+  const mutaionType = model[1]
   const rootKey = getFieldName(fieldPath)
 
   if (model.length > 2) {
-    let submodels = isArray(model[1]) ? model[1] : [model[1]]
+    let submodels = isArray(model[2]) ? model[2] : [model[2]]
     if (model.length > 3) {
-      submodels = model.slice(1, -1)
+      submodels = model.slice(2)
     }
     return submodels
       .map(key => ([key, `${fieldPath}.${key}`, mutaionType, true]))
