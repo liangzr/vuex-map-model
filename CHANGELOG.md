@@ -1,4 +1,4 @@
-## v0.1.1
+## v0.1.1 (2018-10-10)
 
 - Support ESModule & UMD (Universal Module Definition) for use
 
