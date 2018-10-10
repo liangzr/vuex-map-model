@@ -22,17 +22,23 @@ export default function (models) {
   }, Object.create(null))
 }
 
+/**
+ * Take field name from field path
+ */
 function getFieldName (path) {
   const fields = path.split('.')
   return fields[fields.length - 1]
 }
 /**
- * Location field by chain of properties in object
+ * Take field by chain of properties from object
  */
 function resolveField (state, path) {
   return path.split('.').reduce((r, key) => r[key], state)
 }
 
+/**
+ * Normalize the array expression
+ */
 function normalizeModels (models) {
   if (isArray(models)) {
     return models.reduce((convertedModels, model) => {
@@ -48,7 +54,7 @@ function normalizeModels (models) {
 }
 
 /**
- *
+ * Normalize the model form different expression
  * @param {Array} model
  * -- [fieldPath, mutaionType]
  * -- [fieldPath, [field1, field2, field3...], mutaionType]

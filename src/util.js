@@ -1,7 +1,7 @@
 import assert from 'assert'
 
 /**
- * Custom the assert tool
+ * Customize the assertion message uniformly
  */
 export function should (condition, message) {
   assert(condition, `[vuex-map-model]: ${message}`)
@@ -31,10 +31,6 @@ export function toRawType (value) {
  */
 export function isPlainObject (obj) {
   return _toString.call(obj) === '[object Object]'
-}
-
-export function isRegExp (v) {
-  return _toString.call(v) === '[object RegExp]'
 }
 
 export function isArray (arr) {
