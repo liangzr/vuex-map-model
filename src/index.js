@@ -1,58 +1,76 @@
-/**
- * 配合 v-model 命令映射修改 Vuex
- * @param {Object} models mapModel 允许的 Model 类型
- * @example
- * computed: mapModel({
- *   extend: [$store.state.extend, 'updateExtend']
- * })
- */
+import { should, isPlainObject, isArray } from '../utils/util'
+
 export default function (models) {
-  const { state } = store;
-  if (!is.array(models) && !is.object(models)) {
-    throw new Error('Incoming Parameter Invalid: mapModel only accepts arrays or objects');
-  }
-  if (is.array(models)) {
-    models = models.reduce((convertedModels, model) => {
-      if (!is.array(model)) {
-        throw new Error('Structure Invalid: array models only accepts array item like [\'mappedKey\', \'mutationMethod\']');
-      }
-      convertedModels[model[0]] = [state[model[0]], model[1]];
-      return convertedModels;
-    }, {});
-  }
-  return Object.keys(models).reduce((mappedModels, key) => {
-    const model = models[key];
-    if (!is.array(model)) {
-      throw new Error('Structure Invalid: array models only accepts array item like [\'mappedKey\', \'mutationMethod\']');
-    }
-    mappedModels[key] = {};
-    if (is.object(model[0])) {
-      const innerModels = {};
-      for (const item in model[0]) {
-        Object.defineProperty(innerModels, item, {
-          get() {
-            return findInObj(state, model[0])[item];
-          },
-          set(val) {
-            store.commit(model[1], { [item]: val });
-          },
-          // Only enumerable properties can be serialized
-          enumerable: true,
-        });
-      }
-      mappedModels[key].get = function () {
-        return innerModels;
-      };
-    } else {
-      mappedModels[key].get = function () {
-        return findInObj(state, model[0]);
-      };
+  should(isArray(models) || isPlainObject(models), 'only accepts array or object')
+
+  const _models = normalizeModels(models)
+
+  return Object.keys(_models).reduce((mappedModels, key) => {
+    const [fieldPath, mutationType, spread] = _models[key]
+    mappedModels[key] = Object.create(null)
+
+    mappedModels[key].get = function () {
+      return resolveField(this.$store.state, fieldPath)
     }
 
     mappedModels[key].set = function (val) {
-      store.commit(model[1], val);
-    };
+      const payload = spread ? { [key]: val } : val
+      this.$store.commit(mutationType, payload)
+    }
 
-    return mappedModels;
-  }, {});
+    return mappedModels
+  }, Object.create(null))
+}
+
+function getFieldName (path) {
+  const fields = path.split('.')
+  return fields[fields.length - 1]
+}
+/**
+ * Location field by chain of properties in object
+ */
+function resolveField (state, path) {
+  return path.split('.').reduce((r, key) => r[key], state)
+}
+
+function normalizeModels (models) {
+  if (isArray(models)) {
+    return models.reduce((convertedModels, model) => {
+      const rawModel = normalizeModel(model)
+      for (const index in rawModel) {
+        const [key, path, mutationType, spread] = rawModel[index]
+        convertedModels[key] = [path, mutationType, spread]
+      }
+      return convertedModels
+    }, Object.create(null))
+  }
+  return models
+}
+
+/**
+ *
+ * @param {Array} model
+ * -- [fieldPath, mutaionType]
+ * -- [fieldPath, [field1, field2, field3...], mutaionType]
+ * -- [fieldPath, field1, field2..., mutaionType]
+ * @returns [[key, fieldPath, mutationType]]
+ */
+function normalizeModel (model) {
+  should(model.length > 1, 'the length of the model expression must greater than 1')
+  should(isArray(model), 'model expression must be array')
+
+  const fieldPath = model[0]
+  const mutaionType = model[model.length - 1]
+  const rootKey = getFieldName(fieldPath)
+
+  if (model.length > 2) {
+    let submodels = isArray(model[1]) ? model[1] : [model[1]]
+    if (model.length > 3) {
+      submodels = model.slice(1, -1)
+    }
+    return submodels
+      .map(key => ([key, `${fieldPath}.${key}`, mutaionType, true]))
+      .concat([[rootKey, fieldPath, mutaionType, false]])
+  }
+  return [[rootKey, ...model]]
 }
