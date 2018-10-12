@@ -8,7 +8,8 @@
     "scripts:umd": "rollup --config --output.format umd --name vuex-map-model --output.file dist/index.js src/index.js",
     "scripts:es": "rollup --config --output.format es --name vuex-map-model --output.file dist/index.esm.js src/index.js",
     "scripts:minify": "uglifyjs --compress --mangle --comments --output dist/index.min.js dist/index.js && uglifyjs --compress --mangle --comments --output dist/index.esm.min.js dist/index.esm.js",
-    "scripts": "yarn run scripts:umd && yarn run scripts:es && yarn run scripts:minify"
+    "scripts": "yarn run scripts:umd && yarn run scripts:es && yarn run scripts:minify",
+    "prepublishOnly": "yarn run scripts"
   },
   "repository": {
     "type": "git",
